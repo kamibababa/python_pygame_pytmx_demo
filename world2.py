@@ -20,8 +20,8 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 
 # 定义玩家
-player = pygame.Rect(400, 400, 16, 16)  # 玩家初始位置和大小
-player_speed = 5
+player = pygame.Rect(500, 400, 16, 16)  # 玩家初始位置和大小
+player_speed = 2
 
 # 创建游戏对象
 objects = []
@@ -53,12 +53,12 @@ def update_camera():
 
 
 # 检查某个位置是否有墙体
-def check_collision(x, y):
+def check_collision(x, y, dir):
     # 获取该位置的瓦片 ID
     dic = None
     try:
-        x_pos = math.floor(x / tmx_data.tilewidth)
-        y_pos = math.floor(y / tmx_data.tileheight)
+        x_pos = math.floor(x / tmx_data.tilewidth) + (1 if dir == 'right' else 0)
+        y_pos = math.floor(y / tmx_data.tileheight) + (1 if dir == 'down' else 0)
         # print(x, y)
         print(x_pos, y_pos)
         dic = tmx_data.get_tile_properties(x_pos, y_pos, layer=0)
@@ -88,19 +88,19 @@ while running:
 
     if keys[pygame.K_UP]:
         new_y -= player_speed  # 向上移动
-        if not check_collision(new_x, new_y):
+        if not check_collision(new_x, new_y, 'up'):
             player.y = max(0, new_y - player_speed)
     if keys[pygame.K_DOWN]:
         new_y += player_speed  # 向上移动
-        if not check_collision(new_x, new_y):
+        if not check_collision(new_x, new_y, 'down'):
             player.y = min(WORLD_HEIGHT - player.height, new_y + player_speed)
     if keys[pygame.K_LEFT]:
         new_x -= player_speed  # 向左移动
-        if not check_collision(new_x, new_y):
+        if not check_collision(new_x, new_y, 'left'):
             player.x = max(0, new_x - player_speed)
     if keys[pygame.K_RIGHT]:
         new_x += player_speed  # 向左移动
-        if not check_collision(new_x, new_y):
+        if not check_collision(new_x, new_y, 'right'):
             player.x = min(WORLD_WIDTH - player.width, new_x + player_speed)
 
     # 更新摄像机位置
