@@ -35,7 +35,6 @@ if player is None:
 wall_gid = 0
 # 检查某个位置是否有墙体
 def check_collision(x, y):
-    # print(tmx_data)
     # 获取该位置的瓦片 ID
     dic = None
     try:
@@ -136,7 +135,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-        # 处理键盘输入来移动玩家
+    # 处理键盘输入来移动玩家
     keys = pygame.key.get_pressed()
     new_x, new_y = player.x, player.y
 
